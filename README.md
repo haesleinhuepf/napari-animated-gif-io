@@ -7,7 +7,11 @@
 [![codecov](https://codecov.io/gh/haesleinhuepf/napari-animated-gif-io/branch/main/graph/badge.svg)](https://codecov.io/gh/haesleinhuepf/napari-animated-gif-io)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-animated-gif-io)](https://napari-hub.org/plugins/napari-animated-gif-io)
 
-Save 3D image stacks as animated gifs
+Open and save 3D image stacks as animated gifs
+
+You find the menus for opening and saving animated gifs in the `Tools > File import/export` menu:
+
+![img.png](docs/screenshot.png)
 
 ----------------------------------
 
