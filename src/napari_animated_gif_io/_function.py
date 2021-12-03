@@ -1,49 +1,44 @@
-"""
-This module is an example of a barebones function plugin for napari
-
-It implements the ``napari_experimental_provide_function`` hook specification.
-see: https://napari.org/docs/dev/plugins/hook_specifications.html
-
-Replace code below according to your needs.
-"""
 from typing import TYPE_CHECKING
 
-from enum import Enum
 import numpy as np
 from napari_plugin_engine import napari_hook_implementation
 
 if TYPE_CHECKING:
     import napari
 
-
-# This is the actual plugin function, where we export our function
-# (The functions themselves are defined below)
 @napari_hook_implementation
 def napari_experimental_provide_function():
-    # we can return a single function
-    # or a tuple of (function, magicgui_options)
-    # or a list of multiple functions with or without options, as shown here:
-    return [threshold, image_arithmetic]
+    return [save_as_animated_gif]
 
 
-# 1.  First example, a simple function that thresholds an image and creates a labels layer
-def threshold(data: "napari.types.ImageData", threshold: int) -> "napari.types.LabelsData":
-    """Threshold an image and return a mask."""
-    return (data > threshold).astype(int)
+def save_as_animated_gif(data: "napari.types.ImageData", filename : str, duration: float = 0.1):
+    from ._writer import napari_write_image
+    napari_write_image(filename, data, None, duration)
+
+def load_animated_gif(filename : str) -> "napari.types.ImageData":
+    import imageio
+    import numpy
+    im = imageio.get_reader(filename)
+
+    return numpy.asarray([frame for frame in im])
+
+from napari_tools_menu import register_action
+
+@register_action(menu="File Import/Export > Open animated gif")
+def load_animated_gif_menu(viewer):
+    print(viewer)
+    import os
+    from qtpy.QtWidgets import QFileDialog
+    filename, _ = QFileDialog.getOpenFileName(parent=viewer.window._qt_window, filter="*.gif")
+    if os.path.isfile(filename):
+        data = load_animated_gif(filename)
+        viewer.add_image(data, name=filename.replace('\\', '/').split("/")[-1])
 
 
-# 2. Second example, a function that adds, subtracts, multiplies, or divides two layers
+@register_action(menu="File Import/Export > Save animated gif")
+def save_animated_gif_menu(viewer):
+    from qtpy.QtWidgets import QFileDialog
+    filename, _ = QFileDialog.getSaveFileName(parent=viewer.window._qt_window, filter="*.gif")
 
-# using Enums is a good way to get a dropdown menu.  Used here to select from np functions
-class Operation(Enum):
-    add = np.add
-    subtract = np.subtract
-    multiply = np.multiply
-    divide = np.divide
-
-
-def image_arithmetic(
-    layerA: "napari.types.ImageData", operation: Operation, layerB: "napari.types.ImageData"
-) -> "napari.types.LayerDataTuple":
-    """Adds, subtracts, multiplies, or divides two same-shaped image layers."""
-    return (operation.value(layerA, layerB), {"colormap": "turbo"})
+    if isinstance(filename, str) and len(filename) > 0:
+        save_as_animated_gif(list(viewer.layers.selection)[0].data.astype(np.uint8), filename)
