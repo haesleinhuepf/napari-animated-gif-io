@@ -26,7 +26,6 @@ from napari_tools_menu import register_action
 
 @register_action(menu="File Import/Export > Open animated gif")
 def load_animated_gif_menu(viewer):
-    print(viewer)
     import os
     from qtpy.QtWidgets import QFileDialog
     filename, _ = QFileDialog.getOpenFileName(parent=viewer.window._qt_window, filter="*.gif")
