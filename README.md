@@ -9,21 +9,13 @@
 
 Open and save 3D image stacks as animated gifs
 
-You find the menus for opening and saving animated gifs in the `Tools > File import/export` menu:
+You find the menus for opening and saving animated gifs in the `Tools > File Import/Export` menu:
 
-![img.png](docs/screenshot.png)
+![img.png](https://github.com/haesleinhuepf/napari-animated-gif-io/raw/main/docs/screenshot.png)
 
 ----------------------------------
 
 This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
-
-<!--
-Don't miss the full getting started guide to set up your new package:
-https://github.com/napari/cookiecutter-napari-plugin#getting-started
-
-and review the napari docs for plugin developers:
-https://napari.org/plugins/stable/index.html
--->
 
 ## Installation
 
