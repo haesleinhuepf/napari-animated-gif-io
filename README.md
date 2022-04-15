@@ -13,6 +13,11 @@ You find the menus for opening and saving animated gifs in the `Tools > File Imp
 
 ![img.png](https://github.com/haesleinhuepf/napari-animated-gif-io/raw/main/docs/screenshot.png)
 
+Furthermore, if in 3D view, you can save the current view with a little tilt animation as animated gif.
+Under the hood this uses the [microfilm](https://github.com/guiwitz/microfilm) library.
+
+![img.png](https://github.com/haesleinhuepf/napari-animated-gif-io/raw/main/docs/video.gif)
+
 ----------------------------------
 
 This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
