@@ -54,6 +54,7 @@ def save_3d_view(
         from skimage.data import cells3d
 
         from microfilm.microanim import Microanim
+        print('Started generating gif...')
         original_angles = np.asarray(viewer.camera.angles)
 
         images = []
@@ -94,8 +95,8 @@ def save_2d_view(
         if canvas_only:
             layer_types = [str(type(layer)).split('.')[-1][:-2] for layer in viewer.layers]
             if 'Labels' in layer_types:
-                print('[WARNING]: canvas-only screenshots of images with label layers have color issues because of a napari bug.\n\
-                      If you want to make sure that colors are correct, make a gif of the whole viewer (de-select canvasonly)')
+                print('[WARNING]: canvas-only screenshots of images with label layers have color issues because of a napari bug.')
+                print('If you want to make sure that colors are correct, make a gif of the whole viewer (de-select canvasonly)')
         print('Started generating gif...')
         from microfilm.microanim import Microanim
         
@@ -106,16 +107,15 @@ def save_2d_view(
         images = []
         for slice in range(start_slice, end_slice, step):
             viewer.dims.set_current_step(axis, slice)
-            viewer.dims.update(viewer.dims)
+            
             screenshot = viewer.screenshot(canvas_only=canvas_only, flash=False)
             # turn RGBA into RGB
             images.append(screenshot[..., 0:3])
-            print(f'\rProcessed slice {int(slice/step)}/{int((end_slice-start_slice)/step)-1}', end='')
+            print(f'\rProcessed slice {int(slice/step)}/{int((end_slice-start_slice-1)/step)}', end='')
         print('\nGenerating gif from slices...')
 
         # reset viewer
         viewer.dims.set_current_step(axis, original_step)
-        viewer.dims.update(viewer.dims)
 
         # reorganize to CTYX stack
         swapped = np.swapaxes(np.swapaxes(np.swapaxes(images, 1, 0), 0, 3), 2, 3)
