@@ -74,11 +74,57 @@ def save_3d_view(
         # reorganize to CTYX stack
         swapped = np.swapaxes(np.swapaxes(np.swapaxes(image_stack, 1, 0), 0, 3), 2, 3)
 
-        # dave image
+        # save image
         microanim = Microanim(data=swapped, cmaps=['pure_red', 'pure_green', 'pure_blue'], fig_scaling=10)
         microanim.save_movie(filename, fps=frames_per_second)
 
         print("Saving gif done.")
+
+@register_function(menu="File Import/Export > Save animated 2D view as gif")
+def save_2d_view(
+        start_slice : int = 0,
+        end_slice : int = 1,
+        step : int = 1,
+        frames_per_second: int = 15,
+        canvas_only : bool = True,
+        filename : "magicgui.types.PathLike" = "video.gif",
+        viewer : napari.Viewer = None):
+    filename = str(filename)
+    if len(filename) > 0:
+        if canvas_only:
+            layer_types = [str(type(layer)).split('.')[-1][:-2] for layer in viewer.layers]
+            if 'Labels' in layer_types:
+                print('[WARNING]: canvas-only screenshots of images with label layers have color issues because of a napari bug.\n\
+                      If you want to make sure that colors are correct, make a gif of the whole viewer (de-select canvasonly)')
+        print('Started generating gif...')
+        from microfilm.microanim import Microanim
+        
+        axis = viewer.dims.order[0]
+        end_slice = end_slice if end_slice < viewer.dims.nsteps[axis] else viewer.dims.nsteps[axis]
+
+        original_step = viewer.dims.current_step[axis]
+        images = []
+        for slice in range(start_slice, end_slice, step):
+            viewer.dims.set_current_step(axis, slice)
+            viewer.dims.update(viewer.dims)
+            screenshot = viewer.screenshot(canvas_only=canvas_only, flash=False)
+            # turn RGBA into RGB
+            images.append(screenshot[..., 0:3])
+            print(f'\rProcessed slice {int(slice/step)}/{int((end_slice-start_slice)/step)-1}', end='')
+        print('\nGenerating gif from slices...')
+
+        # reset viewer
+        viewer.dims.set_current_step(axis, original_step)
+        viewer.dims.update(viewer.dims)
+
+        # reorganize to CTYX stack
+        swapped = np.swapaxes(np.swapaxes(np.swapaxes(images, 1, 0), 0, 3), 2, 3)
+
+        # save image
+        microanim = Microanim(data=swapped, cmaps=['pure_red', 'pure_green', 'pure_blue'], fig_scaling=10, alpha=1)
+        microanim.save_movie(filename, fps=frames_per_second)
+        print("Saving gif done.")
+    
 
 def _set_view_angle(viewer, angle):
     viewer.camera.angles = angle
