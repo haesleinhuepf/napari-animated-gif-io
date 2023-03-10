@@ -117,7 +117,7 @@ def save_2d_view(
             else: 
                 frames.append(screenshot)
                 
-            print(f'\rProcessed slice {int(slice/step)}/{int((end_slice-start_slice-1)/step)}', end='')
+            print(f'\rProcessed slice {int((slice-start_slice)/step)}/{int((end_slice-start_slice-1)/step)}', end='')
         print('\nGenerating gif from slices...')
 
         # reset viewer
