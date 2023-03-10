@@ -18,6 +18,10 @@ Under the hood this uses the [microfilm](https://github.com/guiwitz/microfilm) l
 
 ![img.png](https://github.com/haesleinhuepf/napari-animated-gif-io/raw/main/docs/video.gif)
 
+If in 2D view, you can also make an animation by going throught the 2D slices of the currently visible dimension/axis. This is implemented in a similar way to the 3D view animations using [microfilm](https://github.com/guiwitz/microfilm), but due to some conflicts with converting 2D slices to microfilm's colorspace it has also been implemented using [Pillow](https://python-pillow.org/). It is recommended to select the "use Pillow to generate gif" option to avoid color issues in your animation.
+
+![2Dvideo.gif](https://github.com/haesleinhuepf/napari-animated-gif-io/raw/main/docs/2Dvideo.gif)
+
 ----------------------------------
 
 This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
@@ -28,12 +32,9 @@ You can install `napari-animated-gif-io` via [pip]:
 
     pip install napari-animated-gif-io
 
-
-
 To install latest development version :
 
     pip install git+https://github.com/haesleinhuepf/napari-animated-gif-io.git
-
 
 ## Contributing
 
@@ -52,17 +53,10 @@ If you encounter any problems, please [file an issue] along with a detailed desc
 [napari]: https://github.com/napari/napari
 [Cookiecutter]: https://github.com/audreyr/cookiecutter
 [@napari]: https://github.com/napari
-[MIT]: http://opensource.org/licenses/MIT
 [BSD-3]: http://opensource.org/licenses/BSD-3-Clause
-[GNU GPL v3.0]: http://www.gnu.org/licenses/gpl-3.0.txt
-[GNU LGPL v3.0]: http://www.gnu.org/licenses/lgpl-3.0.txt
-[Apache Software License 2.0]: http://www.apache.org/licenses/LICENSE-2.0
-[Mozilla Public License 2.0]: https://www.mozilla.org/media/MPL/2.0/index.txt
 [cookiecutter-napari-plugin]: https://github.com/napari/cookiecutter-napari-plugin
 
 [file an issue]: https://github.com/haesleinhuepf/napari-animated-gif-io/issues
 
-[napari]: https://github.com/napari/napari
 [tox]: https://tox.readthedocs.io/en/latest/
 [pip]: https://pypi.org/project/pip/
-[PyPI]: https://pypi.org/
