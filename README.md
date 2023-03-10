@@ -22,6 +22,8 @@ If in 2D view, you can also make an animation by going throught the 2D slices of
 
 ![2D-Demo.gif](./docs/2D-Demo.gif)
 
+The mouse scan used is from [Rosenhain, S., Magnuska, Z., Yamoah, G. et al. A preclinical micro-computed tomography database including 3D whole body organ segmentations.](https://doi.org/10.1038/sdata.2018.294) and labels are predicted using an nnUNet architecture trained on data from the same study.
+
 ----------------------------------
 
 This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
